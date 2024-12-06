@@ -1,10 +1,18 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:admin_ecommerce/screens/Splash/splash_screen.dart';
+import 'package:admin_ecommerce/core/data/data_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:admin_ecommerce/screens/Splash/splash_screen.dart';
+import 'package:admin_ecommerce/screens/home_page.dart';
 
 void main() {
-  runApp(MyApp()); // Loại bỏ từ khóa '' tại đây
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => DataProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: HomePage(), // Đây là trang chính khi khởi động
     );
   }
 }
