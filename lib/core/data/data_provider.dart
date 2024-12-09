@@ -43,6 +43,8 @@ class DataProvider extends ChangeNotifier {
   DataProvider() {
     // Gọi các phương thức để tải dữ liệu ban đầu nếu cần
     getAllPosters();
+    getAllCategories();
+    getAllProducts();
     // Các phương thức khác cần thiết có thể gọi ở đây
   }
 
@@ -73,11 +75,21 @@ class DataProvider extends ChangeNotifier {
     try {
       final response = await service.getItems(endpointUrl: 'categories');
       if (response.statusCode == 200) {
-        List<dynamic> responseBody = response.body;
-        _allCategories =
-            responseBody.map((item) => Category.fromJson(item)).toList();
-        _filteredCategories = _allCategories;
-        notifyListeners();
+        // Parse JSON body
+        var responseBody = response.body;
+
+        if (responseBody is Map<String, dynamic> &&
+            responseBody.containsKey('data')) {
+          List<dynamic> data = responseBody['data'];
+
+          _allCategories = data.map((item) => Category.fromJson(item)).toList();
+          _filteredCategories = _allCategories;
+          notifyListeners();
+        } else {
+          print('Unexpected response format for categories');
+        }
+      } else {
+        print('Failed to fetch categories: ${response.statusCode}');
       }
     } catch (e) {
       print('Error fetching categories: $e');
@@ -117,11 +129,22 @@ class DataProvider extends ChangeNotifier {
     try {
       final response = await service.getItems(endpointUrl: 'products');
       if (response.statusCode == 200) {
-        List<dynamic> responseBody = response.body;
-        _allProducts =
-            responseBody.map((item) => Product.fromJson(item)).toList();
-        _filteredProducts = _allProducts;
-        notifyListeners();
+        // Parse JSON body
+        var responseBody = response.body;
+
+        if (responseBody is Map<String, dynamic> &&
+            responseBody.containsKey('data')) {
+          List<dynamic> data = responseBody['data'];
+
+          // Ánh xạ từng item trong mảng 'data' thành Product
+          _allProducts = data.map((item) => Product.fromJson(item)).toList();
+          _filteredProducts = _allProducts;
+          notifyListeners();
+        } else {
+          print('Unexpected response format for products');
+        }
+      } else {
+        print('Failed to fetch products: ${response.statusCode}');
       }
     } catch (e) {
       print('Error fetching products: $e');
