@@ -32,6 +32,8 @@ class CustomDropdown<T> extends StatelessWidget {
               hintText,
               style: TextStyle(
                 fontSize: 14,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.bold,
                 color: Theme.of(context).hintColor,
               ),
             ),
@@ -42,7 +44,11 @@ class CustomDropdown<T> extends StatelessWidget {
                   height: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(displayItem(value),
-                      style: const TextStyle(fontSize: 14)),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.bold,
+                      )),
                 ),
               );
             }).toList(),

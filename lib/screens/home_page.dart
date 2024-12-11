@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: pages[selectedIndex], // Hiển thị trang tương ứng với tab
       bottomNavigationBar: Container(
-        color: Color(0xFF89A8B2),
+        color: Colors.black,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 15.0,
@@ -36,10 +36,10 @@ class _HomePageState extends State<HomePage> {
           ),
           child: GNav(
             gap: 8,
-            backgroundColor: Color(0xFF89A8B2),
+            backgroundColor: Colors.black,
             color: Colors.white,
             activeColor: Colors.white,
-            tabBackgroundColor: Color(0xFFB3C8CF),
+            tabBackgroundColor: Colors.grey,
             padding: EdgeInsets.all(16),
             selectedIndex: selectedIndex, // Tab được chọn
             onTabChange: (index) {

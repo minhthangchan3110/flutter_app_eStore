@@ -31,6 +31,8 @@ class MultiSelectDropDown<T> extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 color: Theme.of(context).hintColor,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.bold,
               ),
             ),
             items: items.map((item) {
@@ -64,6 +66,8 @@ class MultiSelectDropDown<T> extends StatelessWidget {
                                 displayItem(item),
                                 style: const TextStyle(
                                   fontSize: 14,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),

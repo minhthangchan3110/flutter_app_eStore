@@ -56,7 +56,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 Consumer<DataProvider>(
                   builder: (context, dataProvider, child) {
                     return ProductGridView(
-                      items: dataProvider.allProducts,
+                      items: dataProvider.products,
                     );
                   },
                 ),

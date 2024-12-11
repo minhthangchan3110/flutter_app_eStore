@@ -14,6 +14,7 @@ class Product {
   String? createdAt;
   String? updatedAt;
   int? iV;
+  Map<String, String>? specifications; // Thêm thông số kỹ thuật
 
   Product(
       {this.sId,
@@ -30,7 +31,8 @@ class Product {
       this.images,
       this.createdAt,
       this.updatedAt,
-      this.iV});
+      this.iV,
+      this.specifications}); // Thêm constructor cho specifications
 
   Product.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -39,58 +41,67 @@ class Product {
     quantity = json['quantity'];
     price = json['price']?.toDouble();
     offerPrice = json['offerPrice']?.toDouble();
-    ;
     proCategoryId = json['proCategoryId'] != null
-        ? new ProRef.fromJson(json['proCategoryId'])
+        ? ProRef.fromJson(json['proCategoryId'])
         : null;
     proSubCategoryId = json['proSubCategoryId'] != null
-        ? new ProRef.fromJson(json['proSubCategoryId'])
+        ? ProRef.fromJson(json['proSubCategoryId'])
         : null;
-    proBrandId = json['proBrandId'] != null
-        ? new ProRef.fromJson(json['proBrandId'])
-        : null;
+    proBrandId =
+        json['proBrandId'] != null ? ProRef.fromJson(json['proBrandId']) : null;
     proVariantTypeId = json['proVariantTypeId'] != null
-        ? new ProTypeRef.fromJson(json['proVariantTypeId'])
+        ? ProTypeRef.fromJson(json['proVariantTypeId'])
         : null;
-    proVariantId = json['proVariantId'].cast<String>();
+    proVariantId = List<String>.from(json['proVariantId']);
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add(new Images.fromJson(v));
+        images!.add(Images.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
+
+    // Parse specifications từ JSON
+    if (json['specifications'] != null) {
+      specifications = Map<String, String>.from(json['specifications']);
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['quantity'] = this.quantity;
-    data['price'] = this.price;
-    data['offerPrice'] = this.offerPrice;
-    if (this.proCategoryId != null) {
-      data['proCategoryId'] = this.proCategoryId!.toJson();
+    data['_id'] = sId;
+    data['name'] = name;
+    data['description'] = description;
+    data['quantity'] = quantity;
+    data['price'] = price;
+    data['offerPrice'] = offerPrice;
+    if (proCategoryId != null) {
+      data['proCategoryId'] = proCategoryId!.toJson();
     }
-    if (this.proSubCategoryId != null) {
-      data['proSubCategoryId'] = this.proSubCategoryId!.toJson();
+    if (proSubCategoryId != null) {
+      data['proSubCategoryId'] = proSubCategoryId!.toJson();
     }
-    if (this.proBrandId != null) {
-      data['proBrandId'] = this.proBrandId!.toJson();
+    if (proBrandId != null) {
+      data['proBrandId'] = proBrandId!.toJson();
     }
-    if (this.proVariantTypeId != null) {
-      data['proVariantTypeId'] = this.proVariantTypeId!.toJson();
+    if (proVariantTypeId != null) {
+      data['proVariantTypeId'] = proVariantTypeId!.toJson();
     }
-    data['proVariantId'] = this.proVariantId;
-    if (this.images != null) {
-      data['images'] = this.images!.map((v) => v.toJson()).toList();
+    data['proVariantId'] = proVariantId;
+    if (images != null) {
+      data['images'] = images!.map((v) => v.toJson()).toList();
     }
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['__v'] = iV;
+
+    // Chuyển specifications thành JSON
+    if (specifications != null) {
+      data['specifications'] = specifications;
+    }
+
     return data;
   }
 }
@@ -108,8 +119,8 @@ class ProRef {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
+    data['_id'] = sId;
+    data['name'] = name;
     return data;
   }
 }
@@ -127,8 +138,8 @@ class ProTypeRef {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['type'] = this.type;
+    data['_id'] = sId;
+    data['type'] = type;
     return data;
   }
 }
@@ -148,9 +159,11 @@ class Images {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['image'] = this.image;
-    data['url'] = this.url;
-    data['_id'] = this.sId;
+    data['image'] = image;
+    data['url'] = url;
+    data['_id'] = sId;
     return data;
   }
 }
+
+class Variants {}

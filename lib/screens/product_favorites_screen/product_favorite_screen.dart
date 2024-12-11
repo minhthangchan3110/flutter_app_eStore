@@ -1,3 +1,4 @@
+import 'package:admin_ecommerce/utility/extensions.dart';
 import 'package:admin_ecommerce/widgets/product_grid_view.dart';
 
 import 'provider/favorite_provider.dart';
@@ -13,6 +14,7 @@ class ProductFavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(Duration.zero, () {
       //TODO: should complete call loadFavoriteItems
+      context.favoriteProvider.loadFavoriteItems();
     });
     return Scaffold(
       appBar: AppBar(

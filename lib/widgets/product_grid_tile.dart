@@ -92,12 +92,12 @@ class ProductGridTile extends StatelessWidget {
                           children: [
                             Text(
                               product.offerPrice != 0
-                                  ? "\$${product.offerPrice} "
-                                  : "\$${product.price}",
+                                  ? "${product.offerPrice} ₫"
+                                  : "${product.price} ₫",
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w600,
-                                fontSize: 14.0,
+                                fontSize: 12.0,
                                 color: product.offerPrice != 0
                                     ? Colors.red
                                     : Colors.black,
@@ -110,7 +110,7 @@ class ProductGridTile extends StatelessWidget {
                                 "\$${product.price}",
                                 style: const TextStyle(
                                   decoration: TextDecoration.lineThrough,
-                                  fontSize: 12.0,
+                                  fontSize: 10.0,
                                   color: Colors.grey,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: 'Montserrat',

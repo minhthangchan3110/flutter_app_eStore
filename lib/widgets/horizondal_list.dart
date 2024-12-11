@@ -27,13 +27,27 @@ class HorizontalList<T> extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: ChoiceChip(
-                label: Text(itemToString(item)),
+                label: Text(
+                  itemToString(item),
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.bold,
+                    color: selected == item
+                        ? Colors.white
+                        : Colors.black, // Màu chữ
+                  ),
+                ),
                 selected: selected == item,
                 onSelected: (bool selected) {
                   onSelect(item);
                 },
-                backgroundColor: Colors.grey[200],
-                selectedColor: Colors.orangeAccent,
+
+                side: BorderSide.none,
+                backgroundColor: Colors.white,
+                selectedColor: Colors.black,
+                elevation: 5, // Thêm shadow
+                shadowColor: Colors.grey.withOpacity(0.5), // Màu shadow
+                pressElevation: 8, // Shadow khi được nhấn
                 showCheckmark: false,
               ),
             );
