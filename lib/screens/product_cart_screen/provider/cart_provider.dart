@@ -1,10 +1,13 @@
 import 'dart:developer';
-import 'package:flutter_cart/flutter_cart.dart';
-
+import '../../../models/coupon.dart';
+import '../../login_screen/provider/user_provider.dart';
 import '../../../services/http_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cart/flutter_cart.dart';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
 import '../../../core/data/data_provider.dart';
 
 import '../../../utility/constants.dart';
@@ -13,7 +16,8 @@ import '../../../utility/snack_bar_helper.dart';
 class CartProvider extends ChangeNotifier {
   HttpService service = HttpService();
   final box = GetStorage();
-  // final UserProvider _userProvider;
+
+  final UserProvider _userProvider;
   var flutterCart = FlutterCart();
   List<CartModel> myCartItems = [];
 
@@ -27,15 +31,32 @@ class CartProvider extends ChangeNotifier {
   TextEditingController couponController = TextEditingController();
   bool isExpanded = false;
 
-  // Coupon? couponApplied;
-  // double couponCodeDiscount = 0;
+  Coupon? couponApplied;
+  double couponCodeDiscount = 0;
+  String selectedPaymentOption = 'prepaid';
 
-  // CartProvider(this._userProvider);
+  CartProvider(this._userProvider);
+  getCartItem() {
+    myCartItems = flutterCart.cartItemsList;
+    notifyListeners();
+  }
 
   //TODO: should complete updateCart
+  void updateCart(CartModel cartItem, int quantity) {
+    quantity = cartItem.quantity + quantity;
+    flutterCart.updateQuantity(cartItem.productId, cartItem.variants, quantity);
+    notifyListeners();
+  }
 
   //TODO: should complete getCartSubTotal
+  double getCartSubTotal() {
+    return flutterCart.subtotal;
+  }
 
+  clearCartItem() {
+    flutterCart.clearCart();
+    notifyListeners();
+  }
   //TODO: should complete getGrandTotal
 
   //TODO: should complete getCartItems
@@ -53,8 +74,8 @@ class CartProvider extends ChangeNotifier {
   //TODO: should complete cartItemToOrderItem
 
   clearCouponDiscount() {
-    // couponApplied = null;
-    // couponCodeDiscount = 0;
+    couponApplied = null;
+    couponCodeDiscount = 0;
     couponController.text = '';
     notifyListeners();
   }

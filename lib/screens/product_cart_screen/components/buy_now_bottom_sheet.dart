@@ -1,17 +1,19 @@
 import 'dart:ui';
-import 'package:admin_ecommerce/screens/product_cart_screen/provider/cart_provider.dart';
-import 'package:admin_ecommerce/utility/extensions.dart';
+import 'package:admin_ecommerce/widgets/applay_coupon_btn.dart';
 import 'package:admin_ecommerce/widgets/complete_order_button.dart';
 import 'package:admin_ecommerce/widgets/custom_dropdown.dart';
 import 'package:admin_ecommerce/widgets/custom_text_field.dart';
+
+import '../provider/cart_provider.dart';
+import '../../../utility/extensions.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void showCustomBottomSheet(BuildContext context) {
-  // context.cartProvider.clearCouponDiscount();
-  // context.cartProvider.retrieveSavedAddress();
+  context.cartProvider.clearCouponDiscount();
+  context.cartProvider.retrieveSavedAddress();
   showModalBottomSheet(
     context: context,
     builder: (context) {
@@ -23,7 +25,6 @@ void showCustomBottomSheet(BuildContext context) {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Toggle Address Fields
                 ListTile(
                   title: const Text('Enter Address'),
                   trailing: IconButton(
@@ -132,36 +133,35 @@ void showCustomBottomSheet(BuildContext context) {
                   },
                 ),
 
-                // Payment Options
-                // Consumer<CartProvider>(
-                //   builder: (context, cartProvider, child) {
-                //     return CustomDropdown<String>(
-                //         bgColor: Colors.white,
-                //         hintText: cartProvider.selectedPaymentOption,
-                //         items: const ['cod', 'prepaid'],
-                //         onChanged: (val) {
-                //           cartProvider.selectedPaymentOption = val ?? 'prepaid';
-                //           cartProvider.updateUI();
-                //         },
-                //         displayItem: (val) => val);
-                //   },
-                // ),
-                // Coupon Code Field
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: CustomTextField(
-                //         height: 60,
-                //         labelText: 'Enter Coupon code',
-                //         onSave: (value) {},
-                //         controller: context.cartProvider.couponController,
-                //       ),
-                //     ),
-                //     ApplyCouponButton(onPressed: () {
-                //       //TODO: should complete call checkCoupon
-                //     })
-                //   ],
-                // ),
+                Consumer<CartProvider>(
+                  builder: (context, cartProvider, child) {
+                    return CustomDropdown<String>(
+                        bgColor: Colors.white,
+                        hintText: cartProvider.selectedPaymentOption,
+                        items: const ['cod', 'prepaid'],
+                        onChanged: (val) {
+                          cartProvider.selectedPaymentOption = val ?? 'prepaid';
+                          cartProvider.updateUI();
+                        },
+                        displayItem: (val) => val);
+                  },
+                ),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        height: 60,
+                        labelText: 'Enter Coupon code',
+                        onSave: (value) {},
+                        controller: context.cartProvider.couponController,
+                      ),
+                    ),
+                    ApplyCouponButton(onPressed: () {
+                      //TODO: should complete call checkCoupon
+                    })
+                  ],
+                ),
                 //? Text for Total Amount, Total Offer Applied, and Grand Total
                 Container(
                   width: double.maxFinite,
@@ -182,8 +182,12 @@ void showCustomBottomSheet(BuildContext context) {
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black)),
-                          // Text('Total Offer Applied  : \$${cartProvider.couponCodeDiscount}',
-                          //     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black)),
+                          Text(
+                              'Total Offer Applied  : \$${cartProvider.couponCodeDiscount}',
+                              style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
                           const Text(
                               'Grand Total            : \$${100}', //TODO: should complete to GrandTotal
                               style: TextStyle(
@@ -208,7 +212,7 @@ void showCustomBottomSheet(BuildContext context) {
                             cartProvider.updateUI();
                             return;
                           }
-                          // Check if the form is valid
+
                           if (context.cartProvider.buyNowFormKey.currentState!
                               .validate()) {
                             context.cartProvider.buyNowFormKey.currentState!

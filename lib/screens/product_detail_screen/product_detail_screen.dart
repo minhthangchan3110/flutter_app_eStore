@@ -22,22 +22,6 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  int quantityCount = 0;
-
-  void decrementQuantity() {
-    if (quantityCount > 0) {
-      setState(() {
-        quantityCount--;
-      });
-    }
-  }
-
-  void incrementQuantity() {
-    setState(() {
-      quantityCount++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
@@ -261,44 +245,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             fontSize: 18,
                           ),
                         ),
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[800],
-                                  shape: BoxShape.circle),
-                              child: IconButton(
-                                icon: const Icon(Icons.remove,
-                                    color: Colors.white),
-                                onPressed: decrementQuantity,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 40,
-                              child: Center(
-                                child: Text(
-                                  quantityCount.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[800],
-                                  shape: BoxShape.circle),
-                              child: IconButton(
-                                icon:
-                                    const Icon(Icons.add, color: Colors.white),
-                                onPressed: incrementQuantity,
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                     const SizedBox(
@@ -308,31 +254,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       width: double.infinity, // Độ rộng full màn hình
                       height: 40, // Chiều cao của button
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (quantityCount > 0) {
-                            // Lấy provider và thêm sản phẩm vào giỏ hàng
-                            final productProvider =
-                                Provider.of<ProductDetailProvider>(context,
-                                    listen: false);
-                            for (int i = 0; i < quantityCount; i++) {
-                              productProvider.addToCart(widget.product,
-                                  context); // Truyền BuildContext vào đây
-                            }
-                            setState(() {
-                              quantityCount =
-                                  0; // Reset số lượng sau khi thêm vào giỏ hàng
-                            });
-                          } else {
-                            // Hiển thị thông báo lỗi với ScaffoldMessenger
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Please select a quantity'),
-                                backgroundColor: Colors.red,
-                                duration: Duration(seconds: 3),
-                              ),
-                            );
-                          }
-                        },
+                        onPressed: product.quantity != 0
+                            ? () {
+                                context.proDetailProvider
+                                    .addToCart(product, context);
+                                debugPrint(
+                                    "Product added to cart: ${product.toJson()}");
+                              }
+                            : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white, // Màu nền của button
                           shape: RoundedRectangleBorder(
