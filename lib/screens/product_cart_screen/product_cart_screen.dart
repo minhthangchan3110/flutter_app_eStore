@@ -18,8 +18,9 @@ class ProductCartScreen extends StatelessWidget {
       context.cartProvider.getCartItem();
     });
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey[100],
+        backgroundColor: Colors.white,
         title: const Text(
           "My Cart",
           style: TextStyle(
@@ -27,7 +28,6 @@ class ProductCartScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: Colors.grey[100],
         child: Consumer<CartProvider>(
           builder: (context, cartProvider, child) {
             return Column(

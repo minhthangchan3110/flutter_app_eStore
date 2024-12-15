@@ -28,7 +28,7 @@ class ProductByCategoryScreen extends StatelessWidget {
     });
     return Scaffold(
       body: Container(
-        color: Colors.grey[100],
+        color: Colors.white,
         child: SafeArea(
           child: CustomScrollView(
             slivers: [

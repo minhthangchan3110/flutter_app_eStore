@@ -15,59 +15,63 @@ class CategorySelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 80,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final category = categories[index];
-
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
-            child: OpenContainerWrapper(
-              nextScreen:
-                  ProductByCategoryScreen(selectedCategory: categories[index]),
-              child: Container(
-                width: 80,
-                height: 80,
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: category.isSelected
-                      ? const Color(0xFFf16b26)
-                      : const Color(0xFFE5E6E8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
+          return Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: GestureDetector(
+              onTap: () {
+                // Điều hướng đến màn hình khác
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ProductByCategoryScreen(selectedCategory: category),
+                  ),
+                );
+              },
+              child: Column(
+                children: [
+                  Container(
+                    width: 56,
+                    height: 56,
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Center(
                       child: Image.network(
                         category.image?.replaceAll('localhost', '10.0.2.2') ??
                             '',
-                        width: 90,
-                        height: 90,
-                        fit: BoxFit.contain,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Icon(Icons.error, color: Colors.grey);
-                        },
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  SizedBox(
+                    width: 55,
+                    child: Text(
                       category.name ?? '',
                       style: TextStyle(
                         color:
-                            category.isSelected ? Colors.white : Colors.black,
+                            category.isSelected ? Colors.black : Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Montserrat',
                       ),
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );

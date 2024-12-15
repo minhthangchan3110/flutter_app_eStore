@@ -17,13 +17,13 @@ class ProductFavoriteScreen extends StatelessWidget {
       context.favoriteProvider.loadFavoriteItems();
     });
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text(
           "Favorites",
           style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppColor.darkOrange),
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
         ),
       ),
       body: Padding(
